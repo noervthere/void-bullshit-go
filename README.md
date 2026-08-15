@@ -1,4 +1,5 @@
 # void-bullshit-go
+[![Void Linux](https://img.shields.io/badge/Void_Linux-rolling-blue?logo=voidlinux&logoColor=white)](https://voidlinux.org)
 
 > A collection of void packages that you might actually need.
 
