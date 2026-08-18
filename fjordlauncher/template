@@ -1,0 +1,27 @@
+# Template file for 'fjordlauncher'
+pkgname=fjordlauncher
+version=11.0.3.0
+revision=1
+build_style=cmake
+configure_args="-DENABLE_LTO=ON -DLauncher_QT_VERSION_MAJOR=6"
+hostmakedepends="extra-cmake-modules qt6-base qt6-tools pkg-config cmake ninja desktop-file-utils openjdk17"
+makedepends="qt6-base-devel qt6-svg-devel qt6-wayland-devel qt6-networkauth-devel
+ cmark-devel tomlplusplus-devel libarchive-devel qrencode-devel zlib-devel libgamemode-devel"
+depends="openjdk17-jre desktop-file-utils hicolor-icon-theme gamemode qt6-plugin-tls-openssl"
+short_desc="Custom open-source Minecraft launcher based on Prism Launcher"
+maintainer="andrekriegman@zero.day"
+license="GPL-3.0-only"
+homepage="https://github.com/hero-persson/FjordLauncherUnlocked"
+distfiles="https://github.com/hero-persson/FjordLauncherUnlocked/releases/download/${version}/FjordLauncher-${version}.tar.gz"
+checksum=4fe6b5507ba2a372661aa22c82b23eaa873bae61e2f930468689a18379bdcc4a
+
+pre_configure() {
+	. /etc/profile.d/jdk.sh
+}
+
+post_install() {
+	if [ -f "${DESTDIR}/usr/share/applications/org.unmojang.FjordLauncher.desktop" ]; then
+		mv "${DESTDIR}/usr/share/applications/org.unmojang.FjordLauncher.desktop" \
+		   "${DESTDIR}/usr/share/applications/fjordlauncher.desktop"
+	fi
+}
