@@ -5,6 +5,17 @@
 
 i should've stored the templates...
 
+#INSTALLATION
+
+ install the .xbps package from releases page and run 
+
+```bash
+sudo xbps-install -f --repository=Downloads packagename 
+
+eg. for vekstop : sudo xbps-install -f --repository=Downloads vesktop
+```
+you can also build the packages yourself if theyre outdated or anything
+
 ## Included Packages (more to come)
 
 * **FjordLauncherUnlocked**: A fork of Fjord Launcher with offline support.
