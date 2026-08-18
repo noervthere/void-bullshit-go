@@ -1,0 +1,46 @@
+# Template file for 'localsend'
+pkgname=localsend
+version=1.16.0
+revision=1
+create_wrksrc=yes
+build_style=fetch
+hostmakedepends="tar"
+nopie=yes
+short_desc="Open source cross-platform alternative to AirDrop"
+maintainer="oldurunbeni@github.com"
+license="MIT"
+homepage="https://localsend.org"
+distfiles="https://github.com/localsend/localsend/releases/download/v${version}/LocalSend-${version}-linux-x86-64.tar.gz"
+checksum=59e4f8d1dc4067772deac1841f2b50d6412c886aea3d66575cba9b96fa80e47e
+
+do_extract() {
+    mkdir -p "${wrksrc}"
+    tar -xzf "${XBPS_SRCDISTDIR}/${pkgname}-${version}/LocalSend-${version}-linux-x86-64.tar.gz" -C "${wrksrc}"
+}
+
+do_install() {
+    vmkdir usr/lib/localsend
+    vcopy "*" usr/lib/localsend/
+
+    vmkdir usr/bin
+    ln -s /usr/lib/localsend/localsend_app "${DESTDIR}/usr/bin/localsend"
+
+    # Install Desktop Entry
+    vmkdir usr/share/applications
+    cat <<EOF > "${DESTDIR}/usr/share/applications/org.localsend.localsend_app.desktop"
+[Desktop Entry]
+Name=LocalSend
+Comment=An open-source cross-platform alternative to AirDrop
+Exec=/usr/bin/localsend
+Icon=org.localsend.localsend_app
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;Utility;
+EOF
+
+    # Install Icon
+    vmkdir usr/share/icons/hicolor/512x512/apps
+    if [ -f "${wrksrc}/data/flutter_assets/assets/img/logo-512.png" ]; then
+        vinstall "${wrksrc}/data/flutter_assets/assets/img/logo-512.png" 644 usr/share/icons/hicolor/512x512/apps org.localsend.localsend_app.png
+    fi
+}
