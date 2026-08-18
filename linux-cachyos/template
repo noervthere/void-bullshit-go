@@ -2,12 +2,16 @@
 pkgname=linux-cachyos
 version=7.1.8
 revision=1
+# CachyOS's own upstream release counter for this version (their github tag
+# suffix). This is independent of xbps's ${revision} above - do NOT tie the
+# two together, or bumping the xbps revision will break the source fetch.
+_cachyrel=1
 short_desc="Linux kernel with CachyOS patches (BORE scheduler, LRU_GEN)"
-maintainer="goodnight@punpun.com"
+maintainer="andrekriegman@zero.day"
 license="GPL-2.0-only"
 homepage="https://github.com/CachyOS/linux-cachyos"
 arch="x86_64"
-_srcname="cachyos-${version}-${revision}"
+_srcname="cachyos-${version}-${_cachyrel}"
 distfiles="https://github.com/CachyOS/linux/releases/download/${_srcname}/${_srcname}.tar.gz"
 checksum="6e9269377b882fc61783f2d71246fa831829aa55a606dc7240d4bdde29bfcc3d"
 
