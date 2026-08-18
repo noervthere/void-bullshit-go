@@ -27,5 +27,5 @@ you can also build the packages yourself if theyre outdated or anything
 * **Heroic Games Launcher**: Native games launcher for Epic Games, GOG, and Amazon Games.
 * **LocalSend**: An open-source cross-platform tool for sharing files and messages with nearby devices.
 * **Vesktop**: A custom desktop client for Discord focused on performance and enhanced Vencord support.
-* **Zen Browser**: Firefox Based Browser.
+* **Zen Browser**: Firefox Based Browser. ( Audio doesnt work for me, i'll fix this later.)
 * **CachyOS Kernel**: Performance focused cachyos kernel.
