@@ -1,0 +1,60 @@
+# Template file for 'vesktop'
+pkgname=vesktop
+version=1.5.3
+revision=3
+create_wrksrc=yes
+build_style=fetch
+hostmakedepends="pnpm nodejs tar"
+makedepends="alsa-lib-devel"
+depends="libnotify libsecret pipewire"
+short_desc="Custom Discord desktop app centered around Vencord"
+maintainer="welcometothe@nhk.com"
+license="GPL-3.0-only"
+homepage="https://github.com/Vencord/Vesktop"
+distfiles="https://github.com/Vencord/Vesktop/archive/refs/tags/v${version}.tar.gz"
+checksum=615ed9275a03974a0c6486c0095cfcd0af246363a4f62ec0bdc985c763cc6334
+
+shlib_provides="libffmpeg.so"
+nostrip=yes
+
+do_extract() {
+	mkdir -p "${wrksrc}"
+	tar -xzf "${XBPS_SRCDISTDIR}/${pkgname}-${version}/v${version}.tar.gz" -C "${wrksrc}" --strip-components=1
+}
+
+do_build() {
+	pnpm install --frozen-lockfile
+	pnpm build
+	pnpm exec electron-builder --linux dir
+}
+
+do_install() {
+	vmkdir usr/lib/vesktop
+	vcopy "dist/linux-unpacked/*" usr/lib/vesktop/
+
+	# Wrapper binary
+	vmkdir usr/bin
+	cat <<-'EOF' > "${DESTDIR}/usr/bin/vesktop"
+	#!/bin/sh
+	export LD_LIBRARY_PATH="/usr/lib/vesktop:${LD_LIBRARY_PATH}"
+	exec /usr/lib/vesktop/vesktop "$@"
+	EOF
+	chmod 755 "${DESTDIR}/usr/bin/vesktop"
+
+	# Install Desktop Icon
+	vmkdir usr/share/icons/hicolor/512x512/apps
+	vinstall build/icon.png 644 usr/share/icons/hicolor/512x512/apps vesktop.png
+
+	# Install Desktop Application Entry
+	vmkdir usr/share/applications
+	cat <<-'EOF' > "${DESTDIR}/usr/share/applications/vesktop.desktop"
+	[Desktop Entry]
+	Name=Vesktop
+	Comment=Custom Discord desktop app centered around Vencord
+	Exec=/usr/bin/vesktop %U
+	Icon=vesktop
+	Type=Application
+	StartupWMClass=vesktop
+	Categories=Network;InstantMessaging;Chat;
+	EOF
+}
