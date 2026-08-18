@@ -10,9 +10,14 @@ i should've stored the templates...
  install the .xbps package from releases page and run 
 
 ```bash
-sudo xbps-install -f --repository=Downloads packagename 
+cd Downloads
 
-eg. for vekstop : sudo xbps-install -f --repository=Downloads vesktop
+# 1. Index the current directory as a repository
+xbps-rindex -a *.xbps
+
+# 2. Install the package from the indexed local directory
+sudo xbps-install --repository=. packagename
+
 ```
 you can also build the packages yourself if theyre outdated or anything
 
