@@ -1,0 +1,48 @@
+# Template file for 'zen-browser'
+pkgname=zen-browser
+version=1.19.13b
+revision=1
+archs="x86_64"
+short_desc="Minimalistic web browser"
+maintainer="calgabriel@zero.day"
+license="MPL-2.0"
+homepage="https://www.zen-browser.app/"
+distfiles="https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz"
+checksum=dfc79ffb444c6dbf935a60f6ff4c5cb190567baa26f83c8e9cf8457571e1d900
+nodebug=yes
+nostrip=yes
+shlib_provides="libonnxruntime.so.1"
+
+depends="libX11 libXcomposite libXdamage libXext libXfixes libXt libXtst libxkbcommon libxkbcommon-x11 >
+
+do_install() {
+        # Install application payload
+        vmkdir usr/lib/zen-browser
+        vcopy * usr/lib/zen-browser
+
+        # Symlink executable
+        vmkdir usr/bin
+        ln -s /usr/lib/zen-browser/zen ${DESTDIR}/usr/bin/zen
+
+        # Install icon to hicolor icon theme hierarchy
+        vmkdir usr/share/icons/hicolor/128x128/apps
+        vcopy browser/chrome/icons/default/default128.png usr/share/icons/hicolor/128x128/apps/zen-brow>
+        vmkdir usr/share/pixmaps
+        vcopy browser/chrome/icons/default/default128.png usr/share/pixmaps/zen-browser.png
+
+        # Create a clean desktop entry
+        vmkdir usr/share/applications
+        cat <<-ENTRY > ${DESTDIR}/usr/share/applications/zen-browser.desktop
+        [Desktop Entry]
+        Version=1.0
+        Name=Zen Browser
+        Comment=Experience tranquility while browsing the web
+        Exec=/usr/bin/zen %u
+        Icon=zen-browser
+        Terminal=false
+        Type=Application
+        Categories=Network;WebBrowser;
+        MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
+        StartupWMClass=zen-alpha
+        ENTRY
+}
