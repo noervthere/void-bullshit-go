@@ -5,7 +5,7 @@
 
 i should've stored the templates...
 
-#INSTALLATION
+# INSTALLATION
 
  install the .xbps package from releases page and run 
 
@@ -23,3 +23,4 @@ you can also build the packages yourself if theyre outdated or anything
 * **LocalSend**: An open-source cross-platform tool for sharing files and messages with nearby devices.
 * **Vesktop**: A custom desktop client for Discord focused on performance and enhanced Vencord support.
 * **Zen Browser**: Firefox Based Browser.
+* **CachyOS Kernel**: Performance focused cachyos kernel.
